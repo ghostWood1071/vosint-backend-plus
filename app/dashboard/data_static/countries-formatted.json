@@ -1,0 +1,66 @@
+[
+  {
+    "key": "Việt Nam",
+    "name": ["việt nam", "vietnam", "viet nam"]
+  },
+  {
+    "key": "Trung Quốc",
+    "name": ["trung quốc", "china", "trung quoc"]
+  },
+  {
+    "key": "Đan Mạch",
+    "name": ["đan mạch", "denmark"]
+  },
+  {
+    "key": "Pháp",
+    "name": ["pháp", "france", "phap"]
+  },
+  {
+    "key": "Nhật Bản",
+    "name": ["nhật bản", "nhat ban", "japan"]
+  },
+  {
+    "key": "Anh",
+    "name": ["anh", "england", "english"]
+  },
+  {
+    "key": "Mỹ",
+    "name": ["mỹ", "us", "united states", "america"]
+  },
+  {
+    "key": "Hàn Quốc",
+    "name": ["hàn quốc", "hàn", "han quoc", "korea"]
+  },
+  {
+    "key": "Thái Lan",
+    "name": ["thái lan", "thailand"]
+  },
+  {
+    "key": "Tây Ban Nha",
+    "name": ["tây ban nha", "spain"]
+  },
+  {
+    "key": "Triều Tiên",
+    "name": ["triều tiên", "north korea"]
+  },
+  {
+    "key": "Ý",
+    "name": ["ý", "italia"]
+  },
+  {
+    "key": "Ấn Độ",
+    "name": ["ấn độ", "india"]
+  },
+  {
+    "key": "Nga",
+    "name": ["nga", "russia"]
+  },
+  {
+    "key": "Phần Lan",
+    "name": ["phần lan", "finland"]
+  },
+  {
+    "key": "Úc",
+    "name": ["úc", "uc", "australia"]
+  }
+]

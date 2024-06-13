@@ -1,0 +1,279 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Swagger VOSINT",
+    "version": "3.0"
+  },
+  "servers": [
+    {
+      "url": "http://192.168.1.100:3100/api"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Pipeline",
+      "description": "Quản lý các Pipelines"
+    },
+    {
+      "name": "Scheduler",
+      "description": "Lập lịch chạy các Pipelines"
+    }
+  ],
+  "paths": {
+    "/get_action_infos": {
+      "get": {
+        "tags": ["Pipeline"],
+        "summary": "Lấy danh sách thông tin các Actions",
+        "operationId": "get_action_infos",
+        "responses": {}
+      }
+    },
+    "/get_pipelines": {
+      "get": {
+        "tags": ["Pipeline"],
+        "summary": "Lấy danh sách các Pipelines",
+        "operationId": "get_pipelines",
+        "parameters": [
+          {
+            "name": "text_search",
+            "in": "query",
+            "description": "Nội dung tìm kiếm",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "enabled",
+            "in": "query",
+            "description": "Lọc trạng thái kích hoạt",
+            "schema": {
+              "type": "string",
+              "enum": ["0", "1"]
+            }
+          },
+          {
+            "name": "actived",
+            "in": "query",
+            "description": "Lọc trạng thái đang chạy",
+            "schema": {
+              "type": "string",
+              "enum": ["0", "1"]
+            }
+          },
+          {
+            "name": "order",
+            "in": "query",
+            "description": "Sắp xếp với nhiều thuộc tính (VD: name-desc,created_at,modified_at-asc)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page_number",
+            "in": "query",
+            "description": "Chỉ số trang hiện tại",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "description": "Số lượng bản ghi / trang",
+            "schema": {
+              "type": "integer",
+              "enum": [20, 50, 100]
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/get_pipeline_by_id/{pipeline_id}": {
+      "get": {
+        "tags": ["Pipeline"],
+        "summary": "Lấy thông tin Pipeline theo Id",
+        "operationId": "get_pipeline_by_id",
+        "parameters": [
+          {
+            "name": "pipeline_id",
+            "in": "path",
+            "description": "Pipeline Id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/put_pipeline": {
+      "post": {
+        "tags": ["Pipeline"],
+        "summary": "Lưu thông tin Pipeline",
+        "operationId": "put_pipeline",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/pipeline_for_put"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {}
+      }
+    },
+    "/clone_pipeline/{from_id}": {
+      "post": {
+        "tags": ["Pipeline"],
+        "summary": "Nhân bản Pipeline",
+        "operationId": "clone_pipeline",
+        "parameters": [
+          {
+            "name": "from_id",
+            "in": "path",
+            "description": "From Pipeline Id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/delete_pipeline/{pipeline_id}": {
+      "delete": {
+        "tags": ["Pipeline"],
+        "summary": "Xoá Pipeline theo Id",
+        "operationId": "delete_pipeline",
+        "parameters": [
+          {
+            "name": "pipeline_id",
+            "in": "path",
+            "description": "Pipeline Id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/start_job/{pipeline_id}": {
+      "post": {
+        "tags": ["Scheduler"],
+        "summary": "Chạy Pipeline",
+        "operationId": "start_job",
+        "parameters": [
+          {
+            "name": "pipeline_id",
+            "in": "path",
+            "description": "Pipeline Id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/start_all_jobs": {
+      "post": {
+        "tags": ["Scheduler"],
+        "summary": "Chạy tất cả các Pipelines",
+        "operationId": "start_all_jobs",
+        "parameters": [
+          {
+            "name": "pipeline_ids",
+            "in": "query",
+            "description": "Danh sách Pipeline Id phân tách nhau bởi dấu , (VD: 636b5322243dd7a386d65cbc,636b695bda1ea6210d1b397f)",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/stop_job/{pipeline_id}": {
+      "post": {
+        "tags": ["Scheduler"],
+        "summary": "Dừng Pipeline",
+        "operationId": "stop_job",
+        "parameters": [
+          {
+            "name": "pipeline_id",
+            "in": "path",
+            "description": "Pipeline Id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/stop_all_jobs": {
+      "post": {
+        "tags": ["Scheduler"],
+        "summary": "Dừng tất cả các Pipelines",
+        "operationId": "stop_all_jobs",
+        "parameters": [
+          {
+            "name": "pipeline_ids",
+            "in": "query",
+            "description": "Danh sách Pipeline Id phân tách nhau bởi dấu , (VD: 636b5322243dd7a386d65cbc,636b695bda1ea6210d1b397f)",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "pipeline_for_put": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "example": "636b5322243dd7a386d65cbc",
+            "description": "Nếu không chỉ định _id sẽ thực hiện thêm mới, ngược lại sẽ cập nhật"
+          },
+          "name": {
+            "type": "string",
+            "example": "Thu thập tin tức từ website dantri.com.vn"
+          },
+          "cron_expr": {
+            "type": "string",
+            "example": "10 * * * *"
+          },
+          "schema": {
+            "type": "object",
+            "example": [],
+            "description": "Nếu thêm mới thì không cần chỉ định, mặc định là []"
+          },
+          "logs": {
+            "type": "object",
+            "example": [],
+            "description": "Nếu thêm mới thì không cần chỉ định, mặc định là []"
+          },
+          "enabled": {
+            "type": "boolean",
+            "example": true,
+            "description": "Chỉ định Pipeline có được cho phép để chạy hay không"
+          }
+        }
+      }
+    }
+  }
+}

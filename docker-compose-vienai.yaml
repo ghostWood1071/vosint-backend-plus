@@ -1,0 +1,41 @@
+version: '3.6'
+services:
+    vosint-api:
+        image: vienai/vosint-api:1.0.2
+        environment:
+            - ENVIRONMENT=PRODUCTION
+            - MONGO_DETAILS=mongodb://admin:aivosint%400258@mong2.vosint.edu.vn:60002,mong3.vosint.edu.vn:60003/admin?replicaSet=replicaVosint&authSource=admin&authMechanism=SCRAM-SHA-256
+            - DATABASE_NAME=vosint_db
+            - PIPELINE_API=http://vosint-pipeline-master:6101
+            - KAFKA_CONNECT=kafka-1:9092,kafka-2:9092
+            - ELASTIC_CONNECT=http://master1:9200,http://master2:9200
+            - SUMMARIZE_API=http://vosint-sumthesis:1510/ext
+            - KEYWORD_EXTRACTION_API=http://vosint-extraction:1510/api/extraction
+            - TRANSLATE_API=http://vosint-translate:1510/api/translate
+        ports:
+            - 3688:6102
+        deploy:
+            restart_policy:
+                condition: on-failure
+            replicas: 1
+            placement:
+                constraints:
+                    - node.hostname==aivn
+
+        volumes:
+            - vosint_backend_static:/usr/app/static
+        networks:
+            - vosint3_system_network
+
+volumes:
+    vosint_backend_static:
+        driver: local
+        name: vosint_backend_static
+        driver_opts:
+            type: none
+            o: bind
+            device: "/home/vosint/deployment/static"
+
+networks:
+    vosint3_system_network:
+        external: true

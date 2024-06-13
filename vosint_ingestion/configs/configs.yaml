@@ -1,0 +1,10 @@
+api:
+  port: 3100
+  url: http://192.168.1.100:3100
+  public_dir: public
+log:
+  log_dir: logs
+  file_name: log_file.log
+  when: midnight
+  interval: 1
+  backup_count: 365
