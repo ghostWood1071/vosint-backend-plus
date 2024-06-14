@@ -8,9 +8,9 @@ from fastapi import HTTPException
 router = APIRouter()
 
 @router.get("/get-departments")
-def route_get_departments(search_text:str="", page_size:int=10, page_index:int=1)->Any:
+def route_get_departments(search_text:str="", page_size:int=10, page_index:int=1, branch_id:str="")->Any:
     try: 
-        data = get_departments(search_text, page_size, page_index)
+        data = get_departments(search_text, page_size, page_index, branch_id)
         
         return data
     except Exception as e:

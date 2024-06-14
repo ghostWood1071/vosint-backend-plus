@@ -4,12 +4,14 @@ from .models import Department
 from bson.objectid import ObjectId
 import traceback
 
-def get_departments(text_search:str, page_size:int, page_index:int)->List[Any]:
+def get_departments(text_search:str, page_size:int, page_index:int, branch_id:str)->List[Any]:
     try:
         skip = page_size*(page_index-1)
+        filter_spec = { 'branch_id': branch_id } if branch_id != "" else {}
+
         search_params = {
             "collection_name": "department",
-            "filter_spec": {}, 
+            "filter_spec": filter_spec, 
             "pagination": {
                 "skip": skip,
                 "limit": page_size
