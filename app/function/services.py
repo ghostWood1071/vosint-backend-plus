@@ -118,6 +118,10 @@ def insert_function(doc:dict[Any], plus: bool = False)->Any:
 
         if doc.get("function_id"):
             doc.pop("function_id")
+        
+        if doc.get("parent_id") != 0:
+            del_count = MongoRepository().delete_many("role_function", filter_spec={"function_id": doc.get("parent_id")})
+
         inserted_id = MongoRepository().insert_one(collection_target, doc)
         return inserted_id
     except Exception as e:
