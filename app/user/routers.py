@@ -13,6 +13,7 @@ from db.init_db import get_collection_client
 from .models import InterestedModel, Role, UserCreateModel, UserUpdateModel, BaseUser, User
 from .services import *
 from bson.json_util import dumps
+from vosint_ingestion.models import MongoRepository
 
 router = APIRouter()
 """
@@ -396,11 +397,22 @@ def route_get_user_by_id(user_id:str)->User:
 @router.post("/insert-user")
 def route_insert_user(user: User)->str:
     try: 
+        result, _ = MongoRepository().find("users", filter_spec={"username": user.username})
+        if len(result) >= 1:
+            traceback.print_exc()
+            raise HTTPException(
+                status_code=409,
+                detail="Tên tài khoản đã tồn tại. Vui lòng nhập lại",
+            )
+
         data = insert_user(user.dict())
         return data
+    except HTTPException as http_exc:
+        raise http_exc
+
     except Exception as e:
         traceback.print_exc()
-        raise HTTPException(status_code=500, detail = str(e))
+        raise HTTPException(status_code=500, detail=str(e))
 
 @router.post("/update-user")
 def route_update_user(user: User)->int:

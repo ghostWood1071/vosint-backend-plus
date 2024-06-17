@@ -289,13 +289,6 @@ def insert_user(doc:dict[Any])->Any:
         if doc.get("user_id"):
             doc.pop("user_id")
 
-        result, _ = MongoRepository().find("users", filter_spec={"username": doc.get("username")})
-        if len(result) >= 1:
-            raise HTTPException(
-                status_code=status.HTTP_409_CONFLICT,
-                detail="Tên tài khoản đã tồn tại. Vui lòng nhập lại",
-            )
-
         doc["hashed_password"] = get_password_hash(doc["hashed_password"])
 
         inserted_id = MongoRepository().insert_one("users", doc)
