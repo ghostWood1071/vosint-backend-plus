@@ -24,8 +24,15 @@ def get_function_by_role_id(role_id)->List[Any]:
 async def insert_role_function(doc: dict) -> Any:
     try:
         role_function_client = get_collection_client("role_function")
+        function_client = get_collection_client("function")
+        
+        all_function_ids = []
+        async for func in function_client.find({}, {"_id": 1}):
+            all_function_ids.append(str(func['_id']))
+
         role_id = doc.get("role_id")    
-        function_ids = doc.get("function_ids")
+        # function_ids = doc.get("function_ids")
+        function_ids = list(set(doc.get("function_ids") + all_function_ids))
 
         count = await role_function_client.count_documents({"role_id": role_id})
         documents = [{"role_id": role_id, "function_id": function_id} for function_id in function_ids]
