@@ -12,7 +12,10 @@ def get_departments(text_search:str, page_size:int, page_index:int, branch_id:st
         if branch_id:
             filter_spec["branch_id"] = branch_id
         if text_search not in [None, ""]:
-            filter_spec["department_name"] = {"$regex": text_search, "$options": "i"}
+            filter_spec["$or"] = [ 
+                {"department_name": {"$regex": text_search, "$options": "i"} }, 
+                {"address": {"$regex": text_search, "$options": "i"}}
+            ]
 
         aggregation_pipeline = [
             {"$match": filter_spec},

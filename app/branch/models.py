@@ -5,5 +5,5 @@ class Branch(BaseModel):
     branch_id: str = Field(default_factory=ObjectId, alias="_id")
     branch_name: str
     phone: str
-    fax: str
+    fax: str = ""
     address: str

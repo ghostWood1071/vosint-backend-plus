@@ -20,7 +20,13 @@ def get_branches(text_search:str, page_size:int, page_index:int)->List[Any]:
 
         if text_search not in [None, ""]:
             search_params.update({
-                "filter_spec": {"branch_name": {"$regex": text_search, "$options": "i"}}
+                "filter_spec": {
+                    # "branch_name": {"$regex": text_search, "$options": "i"}
+                    "$or": [
+                        {"branch_name": {"$regex": text_search, "$options": "i"} },
+                        {"address": {"$regex": text_search, "$options": "i"}}
+                    ]
+                }
             })
 
         

@@ -6,5 +6,5 @@ class Department(BaseModel):
     branch_id: str
     department_name: str
     phone: str
-    fax: str
+    fax: str = ""
     address: str
