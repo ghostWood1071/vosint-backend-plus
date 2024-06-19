@@ -11,13 +11,25 @@ from app.information.service import (
     find_by_filter_and_paginate,
     search_by_filter_and_paginate,
     update_infor,
+    get_source_dropdown
 )
 from db.init_db import get_collection_client
-
+from typing import List, Any
+import traceback
+ 
 router = APIRouter()
 infor_collect = get_collection_client("infor")
 
-
+@router.get("/get-source-dropdown")
+def route_get_source_dropdown()->Any:
+    try: 
+        print("1111", 1)
+        data = get_source_dropdown()
+        return data
+    except Exception as e:
+        traceback.print_exc()
+        raise HTTPException(status_code=500, detail = str(e))
+        
 @router.post("")
 async def add_infor(payload: CreateInfor):
     infor = payload.dict()
@@ -84,3 +96,4 @@ async def delete(id):
     if deleted_infor:
         return status.HTTP_200_OK
     return status.HTTP_403_FORBIDDEN
+

@@ -1,9 +1,10 @@
-from typing import List
+from typing import List, Any
 
 from bson.objectid import ObjectId
 from fastapi import HTTPException, status
 
 from db.init_db import get_collection_client
+from vosint_ingestion.models import MongoRepository
 
 infor_collect = get_collection_client("info")
 
@@ -119,3 +120,13 @@ def entity(infor) -> dict:
         "publishing_country": infor["publishing_country"],
         "source_type": infor["source_type"],
     }
+
+def get_source_dropdown()->Any:
+    try:
+        result, _ = MongoRepository().find("info", filter_spec={})
+        print("result", result)
+
+        return [{"label": item["name"], "value": item["_id"]} for item in result]
+    except Exception as e:
+        traceback.print_exc()
+        raise e
