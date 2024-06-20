@@ -23,7 +23,6 @@ infor_collect = get_collection_client("infor")
 @router.get("/get-source-dropdown")
 def route_get_source_dropdown()->Any:
     try: 
-        print("1111", 1)
         data = get_source_dropdown()
         return data
     except Exception as e:

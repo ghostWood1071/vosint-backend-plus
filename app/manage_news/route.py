@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import List, Optional, Any
 
 from bson.objectid import ObjectId
 from fastapi import APIRouter, Body, Depends, HTTPException, status
@@ -17,13 +17,25 @@ from app.manage_news.service import (
     get_by_user_id,
     search_by_filter_and_paginate,
     update_source_group,
+    get_topic_dropdown
 )
 from db.init_db import get_collection_client
+import traceback
 
 router = APIRouter()
 
 db = get_collection_client("Source")
 
+@router.get("/get-topic-dropdown")
+def route_get_topic_dropdown(authorize: AuthJWT = Depends())->Any:
+    try: 
+        authorize.jwt_required()
+        user_id = authorize.get_jwt_subject()
+        data = get_topic_dropdown(user_id)
+        return data
+    except Exception as e:
+        traceback.print_exc()
+        raise HTTPException(status_code=500, detail = str(e))
 
 @router.post("")
 async def create(data: SourceGroupSchema = Body(...), authorize: AuthJWT = Depends()):
