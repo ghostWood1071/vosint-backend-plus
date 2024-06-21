@@ -58,11 +58,11 @@ class BaseUser(BaseModel):
 
 class User(BaseModel):
     user_id: str = Field(default_factory=ObjectId, alias="_id")
-    branch_id: str = ""
-    department_id: str = ""
-    role_id: str = ""
+    branch_id: str = Field(None)
+    department_id: str = Field(None)
+    role_id: str = Field(None)
     username: str
-    hashed_password: str
+    hashed_password: str = Field(None)
     password: Optional[str]
     full_name: str
     avatar_url: str = ""

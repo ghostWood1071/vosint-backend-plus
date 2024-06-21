@@ -46,6 +46,11 @@ async def login(body: UserLoginModel, authorize: AuthJWT = Depends()):
     access_token = authorize.create_access_token(subject=str(user["_id"]))
     refresh_token = authorize.create_refresh_token(subject=str(user["_id"]))
 
+    if(user.get("role") is None):
+        role_collection = get_collection_client("role")
+        role = await role_collection.find_one({"_id": ObjectId(user.get("role_id"))})
+        user["role"] = role["role_code"]
+
     detail = pick(user, "role", "username", "full_name", "avatar_url")
 
     authorize.set_access_cookies(access_token)
