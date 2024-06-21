@@ -20,15 +20,19 @@ def getLogs(search_params:Dict[str, Any]):
         if search_params.get("text_search"):
             search_filter["$and"].append(
                 {
-                    "action_name": {
-                        "$regex": search_params.get("text_search")
-                    }
+                    "$or": [
+                        {"actor_name": {"$regex": search_params.get("text_search"), "$options": "i"}},
+                        {"actor_role": {"$regex": search_params.get("text_search"), "$options": "i"}},
+                        {"action_name": {"$regex": search_params.get("text_search"), "$options": "i"}},
+                        {"target_type": {"$regex": search_params.get("text_search"), "$options": "i"}},
+                        {"target_name": {"$regex": search_params.get("text_search"), "$options": "i"}},
+                    ]
                 }
             )
         if search_params.get("start_date"):
             search_filter["$and"].append(
                 {
-                    "create_at": {
+                    "created_at": {
                         "$gte": search_params.get("start_date")
                     }
                 }
@@ -36,13 +40,15 @@ def getLogs(search_params:Dict[str, Any]):
         if search_params.get("end_date"):
             search_filter["$and"].append(
                 {
-                    "create_at": {
+                    "created_at": {
                         "$lte": search_params.get("end_date")
                     }
                 }
             )
         if search_filter["$and"].__len__() == 0:
             search_filter = {}
+
+        print("search_filter", search_filter)
         data = MongoRepository().get_many(
             collection_name = "action_log", 
             filter_spec = search_filter, 
