@@ -138,10 +138,10 @@ def add_doc(doc:Dict[str, Any]):
 def delete_news(news_ids:List[str]) :
     try:
         object_ids = [ObjectId(id) for id in news_ids]
-        deleted_count = MongoRepository().delete_many(**{
-            "collection_name": "News",
-            "filter_spec": {"_id": {"$in": object_ids}}
-        })
+        deleted_count = MongoRepository().delete_many(
+            collection_name = "warehouse",
+            filter_spec = {"_id": {"$in": object_ids}}
+        )
         return deleted_count
     except Exception as e:
         traceback.print_exc()
