@@ -57,7 +57,40 @@ def search_item(
     except Exception as e:
         traceback.print_exc()
         raise e 
-    
+
+def statistic():
+    aggs = [
+        {
+            '$match': {
+                'catalog_id': None
+            }
+        }, 
+        {
+            '$count': 'count'
+        }
+    ]
+    try:
+        catalogs = MongoRepository().get_many(
+            "catalog", 
+            {},  
+            projection={"_id": 1, "catalog_name": 1}
+        )[0]
+        catalogs[0]["_id"] = None
+        
+        for catalog in catalogs:
+            if catalog.get("_id") is not None:
+                catalog["_id"] = str(catalog["_id"])
+            aggs[0]["$match"]["catalog_id"] = catalog.get("_id")
+            count_result = MongoRepository().aggregate("warehouse", aggs)[0]
+            if len(count_result) > 0:
+                catalog["count"] = count_result[0].get("count")
+            else:
+                catalog["count"] = 0
+        return catalogs
+    except Exception as e:
+        traceback.print_exc()
+        raise e
+
 #----------------------------------------------------news----------------------------------------------------------
 
 def add_news(news_ids:List[str]) :

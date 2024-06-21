@@ -9,6 +9,15 @@ import os
 
 router = APIRouter()
 
+@router.get("/statistic")
+def statistic_route():
+    try:
+        data = statistic()
+        return data
+    except Exception as e:
+        traceback.print_exc()
+        raise HTTPException(500, str(e))
+
 @router.post("/search")
 def search_route(searchParams:SearchItemParams):
     try:
