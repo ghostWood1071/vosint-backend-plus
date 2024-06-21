@@ -57,7 +57,7 @@ class MongoRepository:
         self,
         collection_name: str,
         filter_spec: dict = {},
-        order_spec: list[tuple] = [],
+        order_spec: list[str] = [],
         pagination_spec: dict = {},
         sor_direction=-1,
         projection: dict = None,
@@ -89,7 +89,7 @@ class MongoRepository:
                     # Split order information to get by and direction
                     terms = o.split("-")
                     by = terms[0]
-                    direction = sor_direction  # if len(terms) > 1 and terms[1] == "desc" else 1  # 1: asc; -1: desc
+                    direction = -1 if len(terms) > 1 and terms[1] == "desc" else 1  # 1: asc; -1: desc
                     return by, direction
 
                 order_spec = list(map(lambda o: __map_order(o), order_spec))

@@ -31,9 +31,9 @@ class Scheduler:
             "database": settings.DATABASE_NAME,
             "collection": "jobstore",
         }
-        jobstore = {"default": MongoDBJobStore(**mongo_config)}
-        self.__bg_scheduler = BackgroundScheduler(jobstores=jobstore)
-        self.__bg_scheduler.start()
+        # jobstore = {"default": MongoDBJobStore(**mongo_config)}
+        # self.__bg_scheduler = BackgroundScheduler(jobstores=jobstore)
+        # self.__bg_scheduler.start()
         self.timezone = "Asia/Ho_Chi_Minh"
         Scheduler.__instance = self
 
