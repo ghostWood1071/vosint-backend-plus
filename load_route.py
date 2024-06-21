@@ -32,6 +32,7 @@ from app.role_function.routers import router as RoleFunctionRouter
 from app.role_permission.routers import router as RolePermissionRouter
 from app.catalog.routers import router as CatalogRouter
 from app.hislog.router import router as HisLogRouter
+from app.data_manager.router import router as DataRouter
 
 ROUTE_LIST = [
     {"route": AuthRouter, "tags": ["Xác Thực"], "prefix": ""},
@@ -86,4 +87,5 @@ ROUTE_LIST = [
     {"route": EmailRouter, "tags": ["Email"], "prefix": "/email"},
     {"route": CatalogRouter, "tags": ["Catalog"], "prefix": "/catalog"},
     {"route": HisLogRouter, "tags": ["History Log"], "prefix": "/hislog"},
+    {"route": DataRouter, "tags": ["Kho du lieu"], "prefix": "/data"}
 ]

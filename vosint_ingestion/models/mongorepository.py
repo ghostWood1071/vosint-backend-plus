@@ -364,6 +364,31 @@ class MongoRepository:
             self.__close()
 
         return doc_id
+    
+    def insert_many(self, collection_name: str, docs: List[Dict[str, Any]]):
+        if not collection_name:
+            raise InternalError(
+                ERROR_REQUIRED,
+                params={"code": ["COLLECTION_NAME"], "msg": ["Collection name"]},
+            )
+
+        if not docs:
+            raise InternalError(
+                ERROR_REQUIRED, params={"code": ["DOCUMENT"], "msg": ["Document"]}
+            )
+        try:
+            self.__connect()
+            collection = self.__db[collection_name]
+            # Insert
+            for doc in docs:
+                doc["created_at"] = get_time_now_string()
+                doc["modified_at"] = doc["created_at"]
+            insert_res = collection.insert_many(docs)
+            doc_ids = [str(id) for id in insert_res.inserted_ids]
+        finally:
+            self.__close()
+
+        return doc_ids
 
     def update_one(self, collection_name: str, doc: dict) -> bool:
         if not collection_name:
