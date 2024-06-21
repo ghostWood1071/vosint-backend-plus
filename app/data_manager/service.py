@@ -29,13 +29,10 @@ def search_item(
     if search_text and catalog_id:
         filter["$or"] = [
             {"file_path": {"$regex": search_text}},
-            {"file_name": {"$regex": search_text}}
-        ]  
-    if search_text and not catalog_id:
-        filter["$or"] = [
+            {"file_name": {"$regex": search_text}},
             {"data:title": {"$regex": search_text}},
             {"data:content": {"$regex": search_text}}
-        ]
+        ]  
     filter["$and"] = []
     if start_date:
         filter["$and"].append({"created_at": {"$gte": start_date}})
@@ -75,7 +72,6 @@ def statistic():
             {},  
             projection={"_id": 1, "catalog_name": 1}
         )[0]
-        catalogs[0]["_id"] = None
         
         for catalog in catalogs:
             if catalog.get("_id") is not None:
@@ -93,13 +89,15 @@ def statistic():
 
 #----------------------------------------------------news----------------------------------------------------------
 
-def add_news(news_ids:List[str]) :
+def add_news(news_ids:List[str], catalog_id:str) :
     try:
         object_ids = [ObjectId(id) for id in news_ids]
         data = MongoRepository().find(**{
             "collection_name": "News",
             "filter_spec": {"_id": {"$in": object_ids}}
         })[0]
+        for row in data:
+            row["catalog_id"] = catalog_id
         inserted_ids = MongoRepository().insert_many("warehouse", data)
         if len(inserted_ids) == 0:
             raise Exception("insert error")

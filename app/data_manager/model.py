@@ -12,6 +12,7 @@ class SearchItemParams(BaseModel):
 
 
 class Doc(BaseModel):
+    catalog_id: str = ""
     source_favicon: Optional[str] = ""
     source_name: Optional[str] = ""
     source_host_name: Optional[str] = ""

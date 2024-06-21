@@ -28,9 +28,9 @@ def search_route(searchParams:SearchItemParams):
         raise HTTPException(500, str(e))
 
 @router.post("/add-news")
-def route_add_news(ids:List[str] = []):
+def route_add_news(ids:List[str] = [], catalog_id:str = ""):
     try:
-        inserteds = add_news(ids)
+        inserteds = add_news(ids, catalog_id)
         return inserteds
     except Exception as e:
         traceback.print_exc()
