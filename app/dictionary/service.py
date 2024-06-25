@@ -76,12 +76,14 @@ def search_word(
         }
         if mode == 0:
             project["synonyms"] = 1
+            word_filter["synonyms"] = {"$exists": True, "$not": {"$size": 0}}
 
         if mode == 1:
             project["multimeans"] = 1
+            word_filter["multimeans"] = {"$exists": True, "$not": {"$size": 0}}
 
         if search_text: 
-            word_filter["value"] = {"$regex": search_text}
+            word_filter["value"] = {"$regex": search_text, "$options": "i"}
         
         results = MongoRepository().get_many(
             "dictionary", 
