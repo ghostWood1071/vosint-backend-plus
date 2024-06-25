@@ -52,7 +52,7 @@ def getLogs(search_params:Dict[str, Any]):
         data = MongoRepository().get_many(
             collection_name = "action_log", 
             filter_spec = search_filter, 
-            order_spec=["create_at desc"],
+            order_spec=["create_at-desc"],
             pagination_spec={
                 "skip": skip,
                 "limit": page_size
