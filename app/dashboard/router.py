@@ -1,4 +1,4 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 from fastapi_jwt_auth import AuthJWT
 from fastapi.params import Depends
 
@@ -22,6 +22,9 @@ from .service import (
     status_completed_source_news,
     status_unknown_source_news,
 )
+
+from .plus_service import * 
+from .plus_model import *
 
 router = APIRouter()
 
@@ -147,3 +150,30 @@ async def get_pipeline_unknown(
 
 
 # ------- End admin --------
+
+@router.post("/get-source-by-source-group-id")
+def get_source_by_source_group_id_route(params:GetSourceListParams):
+    try:
+        data = get_source_from_source_group(**params.dict())
+        return data
+    except Exception as e:
+        traceback.print_exc()
+        raise HTTPException(500, str(e))
+    
+@router.post("/statistic_source_by_time")
+def get_statistic_source_by_time(source_host_name: str):
+    try:
+        data = statisitic_source_by_time(source_host_name)
+        return data
+    except Exception as e:
+        traceback.print_exc()
+        raise HTTPException(500, str(e))
+    
+@router.post("/update_crawl_times")
+def update_crawl_times_route(source_id:str, crawl_times:List[str]=[]):
+    try:
+        data = save_suggest_crawl_times(source_id, crawl_times)
+        return data
+    except Exception as e:
+        traceback.print_exc()
+        raise HTTPException(500, str(e))
