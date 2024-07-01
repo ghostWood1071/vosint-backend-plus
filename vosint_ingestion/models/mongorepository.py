@@ -432,7 +432,7 @@ class MongoRepository:
                 params={"code": ["COLLECTION_NAME"], "msg": ["Collection name"]},
             )
 
-        if not filter_spec:
+        if filter_spec is None:
             raise InternalError(
                 ERROR_REQUIRED, params={"code": ["FILTER"], "msg": ["filter"]}
             )

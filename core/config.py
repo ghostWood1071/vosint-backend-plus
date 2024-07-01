@@ -47,6 +47,8 @@ class Settings:
 
     TRANSLATE_API: str = ""
 
+    TOPIC_SENTIMENT_API:str = ""
+
     def read_secret(self):
         with open(f"{script_directory}/secrets/PUBLIC_KEY", mode="r") as file:
             self.PUBLIC_KEY = file.read()
