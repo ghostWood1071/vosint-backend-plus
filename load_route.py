@@ -34,6 +34,7 @@ from app.catalog.routers import router as CatalogRouter
 from app.hislog.router import router as HisLogRouter
 from app.data_manager.router import router as DataRouter
 from app.dictionary.router import router as DictionaryRouter
+from app.model_training.route import router as ModelTrainingRouter
 
 ROUTE_LIST = [
     {"route": AuthRouter, "tags": ["Xác Thực"], "prefix": ""},
@@ -89,5 +90,6 @@ ROUTE_LIST = [
     {"route": CatalogRouter, "tags": ["Catalog"], "prefix": "/catalog"},
     {"route": HisLogRouter, "tags": ["History Log"], "prefix": "/hislog"},
     {"route": DataRouter, "tags": ["Kho du lieu"], "prefix": "/data"}, 
-    {"route": DictionaryRouter, "tags": ["Tu dien"], "prefix": "/dictionary"}
+    {"route": DictionaryRouter, "tags": ["Tu dien"], "prefix": "/dictionary"},
+    {"route": ModelTrainingRouter, "tags": ["Huan luyen mo hinh"], "prefix": "/model-training"}
 ]
