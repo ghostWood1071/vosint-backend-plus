@@ -123,7 +123,7 @@ def labeling(item_id:str, label:int):
         label_text = ["trung_tinh", "tich_cuc", "tieu_cuc"]
         updated = MongoRepository().update_one(
             "sentiment_dataset", 
-            {"_id": MongoRepository(item_id)},
+            {"_id": ObjectId(item_id)},
             {"$set": {"label": ["xxx", label_text[label]] }})
         return updated
     except Exception as e:
