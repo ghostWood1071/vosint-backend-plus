@@ -8,7 +8,7 @@ class SearchParams(BaseModel):
     page_size:int = Field(default=50)
 
 class TrainParams(BaseModel):
-    leaning_rate: float = Field(default=0.00002)
+    learning_rate: float = Field(default=0.00002)
     batch_size:int = Field(default=4)
     num_epoch:int = Field(default=10)
     output_model_name:str = Field(default="best_model")
