@@ -145,3 +145,11 @@ def get_model_name(model_name:str):
         traceback.print_exc()
         raise HTTPException(500, str(e))
 
+@router.post("/label")
+def labeling_route(item_id:str, label:int=0):
+    try:
+       updated = sentiment_service.labeling(item_id, label)
+       return updated
+    except Exception as e:
+        traceback.print_exc()
+        raise HTTPException(500, str(e))
