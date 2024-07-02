@@ -117,3 +117,15 @@ def search(text_search:str=None, set_type:str=None, page_size:int=50, page_index
 def get_task():
     task = MongoRepository().get_one("task_logs", {"task": "sentiment"})
     return task
+
+def labeling(item_id:str, label:int):
+    try:
+        label_text = ["trung_tinh", "tich_cuc", "tieu_cuc"]
+        updated = MongoRepository().update_one(
+            "sentiment_dataset", 
+            {"_id": MongoRepository(item_id)},
+            {"$set": {"label": ["xxx", label_text[label]] }})
+        return updated
+    except Exception as e:
+        traceback.print_exc()
+        raise e
