@@ -121,7 +121,7 @@ def get_task():
 def labeling(item_id:str, label:int):
     try:
         label_text = ["trung_tinh", "tich_cuc", "tieu_cuc"]
-        updated = MongoRepository().update_one(
+        updated = MongoRepository().update_many(
             "sentiment_dataset", 
             {"_id": ObjectId(item_id)},
             {"$set": {"label": ["xxx", label_text[label]] }})
