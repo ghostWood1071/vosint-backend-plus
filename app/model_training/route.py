@@ -68,7 +68,7 @@ def get_task_route():
 @router.post("/train")
 def train_route(train_params:TrainParams):
     try:
-        data = sentiment_service.train()
+        data = sentiment_service.train(**train_params.dict())
         return data
     except Exception as e:
         traceback.print_exc()

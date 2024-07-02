@@ -83,7 +83,7 @@ def add_from_file(file_name:str):
 def train(train_params:Dict[str, Any]):
     try:
         train_api = settings.TOPIC_SENTIMENT_API + "/train"
-        res = requests.post(train_api, params=json.dumps(train_api))
+        res = requests.post(train_api, params=json.dumps(train_params))
         if res.status_code > 200:
             raise Exception(res.text)
         return res.json()
